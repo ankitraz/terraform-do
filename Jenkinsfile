@@ -19,15 +19,19 @@ pipeline {
             steps {
                 sh 'echo "provisioning server..."'
                 withCredentials([string(credentialsId: 'do-api-key', variable: 'DO_API_KEY')]) {
-                    // sh 'terraform init'
-                    // sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
-                    sh 'terraform destroy -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
+                    sh 'terraform output droplet_ip'
+                    droplet_ip = sh(returnStdout: true, script: 'terraform output droplet_ip').trim()
+                    // sh 'terraform destroy -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                 }
             }
         }
         stage('Deploy') {
             steps {
                 sh 'echo "Deploying..."'
+                sh 'echo "Deploying to ${droplet_ip}"'
+                sh 'ssh -o StrictHostKeyChecking=no root@${droplet_ip} "echo hello world"'
             }
         }
     }
