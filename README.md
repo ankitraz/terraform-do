@@ -1,1 +1,1 @@
-# Digital ocean module to create droplet.
+# Digital ocean terraform module to create a droplet.
