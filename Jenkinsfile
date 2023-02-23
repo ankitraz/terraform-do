@@ -19,8 +19,9 @@ pipeline {
             steps {
                 sh 'echo "provisioning server..."'
                 withCredentials([string(credentialsId: 'do-api-key', variable: 'DO_API_KEY')]) {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
+                    // sh 'terraform init'
+                    // sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
+                    sh 'terraform destroy -auto-approve'
                 }
             }
         }
