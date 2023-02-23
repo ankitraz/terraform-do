@@ -22,7 +22,7 @@ pipeline {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                     sh 'terraform output droplet_ip'
-                    droplet_ip = sh(returnStdout: true, script: 'terraform output droplet_ip').trim()
+                    def droplet_ip = sh(returnStdout: true, script: 'terraform output droplet_ip').trim()
                     // sh 'terraform destroy -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                 }
             }
