@@ -25,7 +25,7 @@ resource "digitalocean_droplet" "web" {
 # Create a new SSH key
 resource "digitalocean_ssh_key" "droplet-ssh-key" {
   name       = "Terraform Example"
-  public_key = file(var.ssh_key)
+  public_key = var.ssh_key                     //file(var.ssh_key)
 }
 
 //this will give ipv4 address of our newly created droplet
