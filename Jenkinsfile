@@ -35,7 +35,7 @@ pipeline {
                 script{
                     sh 'echo "Deploying..."'
                 sh 'echo "Deploying to ${droplet_ip}"'
-                sh 'ssh -o StrictHostKeyChecking=no root@${droplet_ip} "echo hello world"'
+                sh 'ssh -o StrictHostKeyChecking=no root@${droplet_ip} "echo hello world"' // to-do   this is not working because i need to add jenkins public key to droplet
                 }
                 
             }
