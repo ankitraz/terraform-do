@@ -23,6 +23,11 @@ pipeline {
                     sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                     sh 'terraform output droplet_ip'
                     def droplet_ip = sh(returnStdout: true, script: 'terraform output droplet_ip').trim()
+                    withEnv(['DROPLET_IP=' + dropletIp]) {
+        // Execute any further steps that require the droplet IP address
+        // For example, SSH into the droplet to run some commands
+                    
+                }
                     // sh 'terraform destroy -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                 }
             }
@@ -31,7 +36,7 @@ pipeline {
             steps {
                 sh 'echo "Deploying..."'
                 sh 'echo "Deploying to ${droplet_ip}"'
-                sh 'ssh -o StrictHostKeyChecking=no root@${droplet_ip} "echo hello world"'
+                sh 'ssh -o StrictHostKeyChecking=no root@${DROPLET_IP} "echo hello world"'
             }
         }
     }
