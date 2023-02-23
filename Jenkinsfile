@@ -17,7 +17,8 @@ pipeline {
                 ssh_key = credentials('do-public-key')
             }
             steps {
-                sh 'echo "provisioning server..."'
+                script{
+                    sh 'echo "provisioning server..."'
                 withCredentials([string(credentialsId: 'do-api-key', variable: 'DO_API_KEY')]) {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
@@ -30,13 +31,17 @@ pipeline {
                 }
                     // sh 'terraform destroy -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                 }
+                }
             }
         }
         stage('Deploy') {
             steps {
-                sh 'echo "Deploying..."'
+                script{
+                    sh 'echo "Deploying..."'
                 sh 'echo "Deploying to ${droplet_ip}"'
                 sh 'ssh -o StrictHostKeyChecking=no root@${DROPLET_IP} "echo hello world"'
+                }
+                
             }
         }
     }
