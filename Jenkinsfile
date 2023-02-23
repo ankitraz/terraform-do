@@ -14,13 +14,13 @@ pipeline {
 
         stage('provision server') {
             environment{
-                ssh-key = credentials('do-public-key')
+                ssh_key = credentials('do-public-key')
             }
             steps {
                 sh 'echo "provisioning server..."'
                 withCredentials([string(credentialsId: 'do-api-key', variable: 'DO_API_KEY')]) {
                     sh 'terraform init'
-                    sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh-key}"'
+                    sh 'terraform apply -auto-approve -var "do_token=${DO_API_KEY}" -var "ssh_key=${ssh_key}"'
                 }
             }
         }
